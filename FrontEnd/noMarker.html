@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Geocoding on click event</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGlmrguKs4mueGcNXsWxXSLzsB5EjmPGk&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: "Roboto", "sans-serif";
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      #floating-panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        width: 350px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+
+      #latlng {
+        width: 225px;
+      }
+    </style>
+    <script>
+      function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 3,
+          center: { lat:  39.921, lng: 5.998 },
+        });
+        const geocoder = new google.maps.Geocoder();
+        
+        // Gets latlng from click event
+        map.addListener("click", (mapsMouseEvent) => {
+          let cordi = mapsMouseEvent.latLng.toJSON()
+          geocodeLatLng(geocoder, map, cordi);
+        });
+      }
+      
+      function geocodeLatLng(geocoder, map, cordi) {
+        console.log(cordi.lat)
+        console.log(cordi.lng)
+        const latlng = {
+          lat: cordi.lat,
+          lng: cordi.lng,
+        };
+        geocoder.geocode({ location: latlng }, (results, status) => {
+          if (status === "OK") {
+            console.log(results)
+            console.log(results[0])
+            if (results[0]) {
+            // Loops trough each type until type of country find.
+            for (let index = 0; index < results[0].address_components.length; index++) {
+                if (results[0].address_components[index].types[0] == "country") {
+                    let country = results[0].address_components[index].short_name
+                    console.log("Top 50 i " + country)
+                    return country 
+                    // Send country to spotify API
+                    // check if result is empty, then return Pirate Playlist
+                }                
+            }
+            } 
+            else {
+              window.alert("No results found");
+            }
+          } else {
+            window.alert("Geocoder failed due to: " + status);
+          }
+        });
+      }
+
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>
