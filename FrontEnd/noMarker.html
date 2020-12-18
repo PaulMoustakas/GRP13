@@ -84,6 +84,29 @@
                 if (results[0].address_components[index].types[0] == "country") {
                     let country = results[0].address_components[index].short_name
                     console.log("Top 50 i " + country)
+                      if (player.style.display === "none") {
+                        player.style.display = "block"
+                      }
+                      console.log("Successssss")
+                      player = document.getElementById("player")
+                      let iframe = document.getElementById("iframe")
+
+                      let SE = "46sPNZPmAAGf40agv6QUJm"
+                      let ES = "37i9dQZEVXbNFJfN1Vw8d9"
+                      
+                      if (country == "SE") {
+                      iframe.src = "https://open.spotify.com/embed/album/" + SE
+                      }
+                      else if (country == "ES") {
+                      iframe.src = "https://open.spotify.com/embed/playlist/" + ES
+                      }
+                      
+                      iframe.allowtransparency = "true"
+                      iframe.allow = "encrypted-media"
+                      iframe.width="300" 
+                      iframe.height="380" 
+                      iframe.frameborder="0"
+                  
                     return country 
                     // Send country to spotify API
                     // check if result is empty, then return Pirate Playlist
@@ -103,5 +126,8 @@
   </head>
   <body>
     <div id="map"></div>
+    <div id="player">    
+      <iframe id="iframe"></iframe>
+    </div>
   </body>
 </html>
