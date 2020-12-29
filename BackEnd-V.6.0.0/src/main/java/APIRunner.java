@@ -14,21 +14,16 @@ import static spark.Spark.*;
 public class APIRunner {
     public static void main(String[] args) {
         port(3000);
-        staticFiles.location("/public");
+//        staticFiles.location("/public");
+//
+//
+//        get("/front", (request, response) -> {
+//            return new PebbleTemplateEngine().render (
+//                    new ModelAndView(null, "/templates/index.htlm"));
+//        });
 
-
-        get("/front", (request, response) -> {
-            return new PebbleTemplateEngine().render (
-                    new ModelAndView(null, "/templates/"));
-        });
-
-
-
-
-        get("/hello", (req, res)->"Hello, world");
-
-        get("/hello/:name", (req,res)->{
-            return "Hello, "+ req.params(":name");
+        get("/:country", (req,res)->{
+            return "Hello, "+ req.params(":country");
         });
     }
 }
