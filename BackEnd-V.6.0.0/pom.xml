@@ -8,6 +8,7 @@
     <artifactId>BackEnd-V.6.0.0</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+<<<<<<< Updated upstream
     <dependencies>
 
         <dependency>
@@ -29,6 +30,8 @@
 
     </dependencies>
 
+=======
+>>>>>>> Stashed changes
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
