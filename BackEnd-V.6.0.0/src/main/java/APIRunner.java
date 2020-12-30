@@ -1,11 +1,9 @@
 
 import Entities.Country;
 import com.google.gson.Gson;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-
-
 import static spark.Spark.*;
 
 /**
@@ -15,16 +13,17 @@ import static spark.Spark.*;
  * @version 2.0.0
  */
 
+
 public class APIRunner {
+
+    /**
+     * Necessary to bypass CORS-FILTER.
+     * Found on github, dont understand it.
+     */
+
     public static void main(String[] args) {
         port(3000);
         APIRunner runner = new APIRunner();
-
-        /**
-         * Necessary to bypass CORS-FILTER.
-         * Found on github, dont understand it.
-         */
-
         options("/*",
                 (request, response) -> {
 
@@ -59,11 +58,12 @@ public class APIRunner {
 
     public void getCountry () {
         get("/country", (req,res)->{
+            res.type("application/json");
             System.out.println(req.body() + " req body");
             System.out.println(req.body() + " response body");
             Country country = new Gson().fromJson(req.body(), Country.class);
             spotifyConnection(country);
-            return "Country retrieved";
+            return "Country transferred to server";
         });
     }
 
@@ -73,9 +73,12 @@ public class APIRunner {
      * @param queryCountry
      * @return
      */
+
+
     public String spotifyConnection (Country queryCountry){
         System.out.println("Spotify connection " + queryCountry.toString());
         String url = "http://api.spotify.com/v1/search";
+
         HttpResponse<JsonNode> spotifyResponse;
 
         try {
@@ -94,5 +97,6 @@ public class APIRunner {
             return null;
         }
     }
+
 }
 
