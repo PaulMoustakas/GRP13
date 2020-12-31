@@ -18,7 +18,7 @@ public class APIRunner {
 
     /**
      * Necessary to bypass CORS-FILTER.
-     * Found on github, dont understand it.
+     * Found on github, dont fully understand it.
      */
 
     public static void main(String[] args) {
@@ -57,7 +57,7 @@ public class APIRunner {
      */
 
     public void getCountry () {
-        get("/country", (req,res)->{
+        post("/country", (req,res)->{
             res.type("application/json");
             System.out.println(req.body() + " req body");
             System.out.println(req.body() + " response body");
