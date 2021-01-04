@@ -1,6 +1,4 @@
 package Entities;
-import MashupAPI.API_main;
-
 import javax.swing.*;
 import java.sql.*;
 
@@ -12,7 +10,7 @@ public class DB_Connection {
     public DB_Connection () throws ClassNotFoundException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
-        String message =JOptionPane.showInputDialog("Enter DB password");
+        String message = JOptionPane.showInputDialog("Enter DB password");
 
             try {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/MashupAPIDatabase?user=root&password=" + message);
