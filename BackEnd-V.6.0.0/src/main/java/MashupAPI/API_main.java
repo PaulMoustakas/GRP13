@@ -21,6 +21,8 @@ import static spark.Spark.*;
 
 public class API_main {
 
+    private DB_Connection connection = null;
+
     /**
      * The /country route recieves a country
      * from the client, converts it from JSON into
@@ -34,7 +36,7 @@ public class API_main {
         port(3000);
         Gson gson = new Gson();
 
-        DB_Connection connection = new DB_Connection();
+        connection = new DB_Connection();
         connection.setupDB();
 
 
