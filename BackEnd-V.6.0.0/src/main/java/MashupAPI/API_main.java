@@ -62,15 +62,13 @@ public class API_main {
 
         System.out.println("Spotify connection " + country.countryName);
         String URL = "https://accounts.spotify.com/api/token";
-        String accessToken;
 
         HttpResponse<JsonNode> response = Unirest.post(URL)
                     .basicAuth("74259314b7904a7b827c730f5f7d3cd8","0e00d4fa078b449e95578569289f01fd")
                 .field("grant_type","client_credentials")
                 .asJson();
 
-        accessToken = response.getBody().toString().substring(17,100);
-        System.out.println(accessToken);
+        System.out.println(response.getBody());
     }
 }
 
