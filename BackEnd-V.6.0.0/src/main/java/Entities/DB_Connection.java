@@ -10,10 +10,9 @@ public class DB_Connection {
     public DB_Connection () throws ClassNotFoundException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
-        String message = JOptionPane.showInputDialog("Enter DB password");
 
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/MashupAPIDatabase?user=root&password=" + message);
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/MashupAPIDatabase?user=root&password=" + "bubba1bobo2");
             } catch (Exception e) {
                 e.printStackTrace();
 
