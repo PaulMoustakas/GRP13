@@ -2,19 +2,12 @@ package MashupAPI;
 import Entities.Country;
 import Entities.DB_Connection;
 import com.google.gson.Gson;
-import kong.unirest.HttpRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
-import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
-import spark.Spark;
-import unirest.shaded.com.google.gson.JsonObject;
-
-import java.util.Iterator;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
+import java.util.Stack;
 import static spark.Spark.*;
 
 /**
@@ -27,7 +20,9 @@ import static spark.Spark.*;
 
 public class API_main {
 
-    private DB_Connection connection = null;
+    private DB_Connection connection;
+    private Stack stack;
+    private Gson gson;
 
     /**
      * The /country route recieves a country
@@ -40,7 +35,8 @@ public class API_main {
     public API_main () throws ClassNotFoundException {
 
         port(3000);
-        Gson gson = new Gson();
+        gson = new Gson();
+        stack = new Stack();
 
         connection = new DB_Connection();
         connection.setupDB();
@@ -109,12 +105,35 @@ public class API_main {
                     .queryString("limit", "1")
                     .asJson();
 
-        try {
-                System.out.println(playlistRequest.getBody().toPrettyString());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            if(playlistRequest.getBody().toString().length() < 50) {
+
+                try {
+
+                    Scanner scanner = new Scanner(playlistRequest.getBody().toString());
+                    String playlistID;
+                    scanner.useDelimiter(",");
+
+                    while (scanner.hasNextLine() && stack.size() < 6) {
+                        stack.push(scanner.next());
+                    }
+
+                    playlistID = stack.pop().toString().substring(6, 28);
+                    stack.removeAllElements();
+                    System.out.println(playlistID);
+
+                    country.setCountryName(country.countryName);
+                    country.setTop50Playlist(playlistID);
+
+                    connection.addCountry(country);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            else
+                System.out.println("This country does not have Spotify.");
     }
 }
 

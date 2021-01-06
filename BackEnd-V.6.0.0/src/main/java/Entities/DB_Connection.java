@@ -30,7 +30,7 @@ public class DB_Connection {
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE IF EXISTS Country");
-            statement.executeUpdate("CREATE TABLE Country (countryID varchar(30) PRIMARY KEY)");
+            statement.executeUpdate("CREATE TABLE Country (countryID varchar(30), playlistID varchar (29)" + ",PRIMARY KEY (countryID,playlistID))");
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,7 +43,9 @@ public class DB_Connection {
 
         {
             Statement statement = connection.createStatement();
-            String sqlStatement = ("INSERT INTO Country (countryID)" + "VALUES ('" + mapCountry.getCountryName() + "')");
+            String sqlStatement = "INSERT INTO Country (countryID, playlistID)"
+                    + "VALUES ('" + mapCountry.countryName + "', "
+                    +  "'" + mapCountry.top50Playlist + "')";
             statement.executeUpdate(sqlStatement);
             statement.close();
 
