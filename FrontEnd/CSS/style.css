@@ -12,7 +12,6 @@ margin-right: auto;
 html,
 body {
 height: 100%;
-
 padding: 0;
 background-color: rgb(24, 24, 24)
 
@@ -31,11 +30,12 @@ margin: auto;
 margin-top: 1%;
 margin-left: 10%;
 margin-right: auto;
+width: 400px;
+height: 380px;
+border: 2px;
 }
 
-
-  
-
+/* 
 #floating-panel {
 position: absolute;
 top: 10px;
@@ -60,8 +60,9 @@ z-index: 5;
 background-color: #fff;
 padding: 5px;
 border: 1px solid #999;
-}
+} */
 
 #latlng {
 width: 225px;
 }
+
