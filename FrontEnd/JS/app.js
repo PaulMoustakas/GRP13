@@ -93,11 +93,44 @@ function geocodeLatLng(geocoder, map, cordi) {
   });
 }
 
-function getWeather(lat,lon) {
-  $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=55&lon=13&appid=da1628d2e0d5876be7710a4cecd3b03d",function(json){
-  console.log(JSON.stringify(json))    
-  });
+weather = document.getElementById("weather")
+let weatherFrame = document.getElementById("weatherFrame")
 
+// Kontrollerar om Spotify spelaren ej visas.
+if (weather.style.display === "none") {
+  weather.style.display = "block"
 }
 
-// http://api.openweathermap.org/data/2.5/weather?lat=55&lon=13&appid=da1628d2e0d5876be7710a4cecd3b03d
+function getWeather(lat,lon) {
+
+  $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat +"&lon=" + lon + "&units=metric&appid=ccb56b0d59812fced4e6355440154d34",function(json){
+  // console.log(JSON.stringify(json)) 
+  let temp = json.main.temp
+  let iconcode = json.weather[0].icon
+  let region = json.name
+  console.log(iconcode)
+  console.log(region)
+  console.log(json.main.temp + " celcius grader")
+
+  weatherFrame = document.getElementById("weatherFrame")
+  weatherFrame.src="http://openweathermap.org/img/w/" + iconcode + ".png";
+  document.getElementById("weatherInfo").innerHTML = temp + "\n" + region
+  });
+}
+
+
+
+
+// {"coord":{"lon":14.359,"lat":59.2932},
+// "weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04n"}],
+// "base":"stations",
+// "main":{"temp":271.31,"feels_like":264.73,"temp_min":269.82,"temp_max":272.15,"pressure":1022,"humidity":80},
+// "visibility":10000,
+// "wind":{"speed":5.7,"deg":50},
+// "clouds":{"all":97},
+// "dt":1609945618,
+// "sys":{"type":1,"id":1777,"country":"SE","sunrise":1609919713,"sunset":1609942875},
+// "timezone":3600,
+// "id":2717881,
+// "name":"Degerfors Kommun",
+// "cod":200}
