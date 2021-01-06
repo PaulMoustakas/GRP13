@@ -6,8 +6,14 @@ import kong.unirest.HttpRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 import spark.Spark;
+import unirest.shaded.com.google.gson.JsonObject;
 
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import static spark.Spark.*;
 
@@ -65,8 +71,6 @@ public class API_main {
 
         post("/country", (req,res)->{
                     res.type("application/json");
-                    System.out.println(req.body());
-                    System.out.println(res.body());
                     Country country = gson.fromJson(req.body(), Country.class);
                     spotifyConnection(country);
 
@@ -84,15 +88,33 @@ public class API_main {
 
     public void spotifyConnection(Country country) {
 
-        System.out.println("Spotify connection " + country.countryName);
+        System.out.println("Country to use in Spotify API query:  " + country.countryName);
         String URL = "https://accounts.spotify.com/api/token";
 
-        HttpResponse<JsonNode> response = Unirest.post(URL)
+        HttpResponse<JsonNode> authRequest = Unirest.post(URL)
                     .basicAuth("74259314b7904a7b827c730f5f7d3cd8","0e00d4fa078b449e95578569289f01fd")
                 .field("grant_type","client_credentials")
                 .asJson();
 
-        System.out.println(response.getBody());
+
+        JSONObject jsonAuth = authRequest.getBody().getObject();
+        String authString = jsonAuth.getString("access_token");
+
+            String apiURL = "https://api.spotify.com/v1/search";
+
+            HttpResponse <JsonNode> playlistRequest = Unirest.get(apiURL)
+                    .header("Authorization", "Bearer " + authString)
+                    .queryString("q", "Top 50 " + country.countryName + " charts")
+                    .queryString("type", "playlist")
+                    .queryString("limit", "1")
+                    .asJson();
+
+        try {
+                System.out.println(playlistRequest.getBody().toPrettyString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
