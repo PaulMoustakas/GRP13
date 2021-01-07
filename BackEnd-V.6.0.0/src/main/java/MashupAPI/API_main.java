@@ -65,12 +65,12 @@ public class API_main {
 
 
 
-        post("/country", (req,res)->{
+        get("/country", (req,res)->{
                     res.type("application/json");
                     Country country = gson.fromJson(req.body(), Country.class);
-                    spotifyConnection(country);
+                    res.body(String.valueOf(spotifyConnection(country)));
 
-            return "Country transferred to server";
+                    return res.body();
         });
     }
 
@@ -80,9 +80,10 @@ public class API_main {
      * and then uses the token and country name to search the
      * SPOTIFY API for the correct top 50 playlist.
      * @param country
+     * @return
      */
 
-    public void spotifyConnection(Country country) {
+    public String spotifyConnection(Country country) {
 
         System.out.println("Country to use in Spotify API query:  " + country.countryName);
         String URL = "https://accounts.spotify.com/api/token";
@@ -106,7 +107,7 @@ public class API_main {
                     .asJson();
 
 
-            if(playlistRequest.getBody().toString().length() < 50) {
+            if(playlistRequest.getBody().toString().length() > 15) {
 
                 try {
 
@@ -125,15 +126,17 @@ public class API_main {
                     country.setCountryName(country.countryName);
                     country.setTop50Playlist(playlistID);
 
-                    connection.addCountry(country);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            else
+            else {
                 System.out.println("This country does not have Spotify.");
+            }
+
+            return country.top50Playlist;
     }
 }
 
