@@ -1,11 +1,10 @@
 /* Always set the map height explicitly to define the size of the div
 * element that contains the map. */
 #map {
-    height: 40%;
+    height: 80%;
     width: 80%;
-    margin-top: 0%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 4% auto 5% auto;
+    border-radius: 7px;
     }
     
     /* Optional: Makes the sample page fill the window. */
@@ -13,7 +12,8 @@
     body {
     height: 100%;
     padding: 0;
-    background-color: rgb(24, 24, 24)
+    background-color: rgb(24, 24, 24);
+    color: white;
     
     }
     #title > h1 {
@@ -27,12 +27,25 @@
     }
     
     #iframe {
-    margin-top: 1%;
+    /* margin-top: 1%;
     margin-left: 10%;
-    margin-right: auto;
+    margin-right: auto; */
     width: 400px;
     height: 380px;
     border: 2px;
+    border-radius: 15px;
+    box-shadow: 200px grey;
+    }
+
+    .card {
+        border-radius: 7px;
+
+    }
+
+    
+
+    #infographic {
+    display: none;
     }
     
     /* 

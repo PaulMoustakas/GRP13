@@ -14,13 +14,9 @@ function initMap() {
   map.addListener("click", (mapsMouseEvent) => {
     let cordi = mapsMouseEvent.latLng.toJSON()
     geocodeLatLng(geocoder, map, cordi);
-
-    console.log(cordi.lat + " " + cordi.lng)
-    getWeather(cordi.lat,cordi.lng);
   });
 
   map.setOptions({ minZoom: 2, maxZoom: 6 });
-
 }
 
       
@@ -40,6 +36,7 @@ function geocodeLatLng(geocoder, map, cordi) {
         if (results[0].address_components[index].types[0] == "country") {
             let country = results[0].address_components[index].long_name
             
+            getWeather(cordi.lat,cordi.lng,country);
             // Skapar ett objekt med countryName 
             var data = {};
             data.countryName = country;
@@ -51,24 +48,37 @@ function geocodeLatLng(geocoder, map, cordi) {
               headers: {"Accept": "application/json"}
             })
             .done(function(result) {
+            });            
+            
+
+            //Ajax func för att hämta playlist id --> ID
+            $.ajax({
+              method: "GET",
+              url: 'http://localhost:3000/playlist',
+              headers: {"Accept": "application/json"}
+            })
+            .done(function(data) {
+              console.log(data)
+              console.log(data[0])
+              playlistID = data[0] 
             });
             
-            //Ajax func för att hämta playlist id --> ID
-
-
-
-            player = document.getElementById("player")
+            infographic = document.getElementById("infographic")
             let iframe = document.getElementById("iframe")
+            infographic.style.display = "block"
+            let map = document.getElementById("map")
+            map.style.height = "40%"
 
             // Kontrollerar om Spotify spelaren ej visas.
-            if (player.style.display === "none") {
-              player.style.display = "block"
-            }
+            // if (infographic.style.display === "none") {
+            //   infographic.style.display = "block"
+            // }
 
             // Playlist-ID från Backend
             // let playlistID = ""
             // iframe.src = "https://open.spotify.com/embed/album/" + playlistID
-
+            
+            //Temporära värden, ska tas bort
             let SE = "46sPNZPmAAGf40agv6QUJm"
             let ES = "37i9dQZEVXbNFJfN1Vw8d9"
 
@@ -96,25 +106,28 @@ function geocodeLatLng(geocoder, map, cordi) {
 weather = document.getElementById("weather")
 let weatherFrame = document.getElementById("weatherFrame")
 
-// Kontrollerar om Spotify spelaren ej visas.
-if (weather.style.display === "none") {
-  weather.style.display = "block"
-}
-
-function getWeather(lat,lon) {
+function getWeather(lat,lon, country) {
 
   $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat +"&lon=" + lon + "&units=metric&appid=ccb56b0d59812fced4e6355440154d34",function(json){
   // console.log(JSON.stringify(json)) 
-  let temp = json.main.temp
+  let temp = json.main.temp.toFixed(0)
   let iconcode = json.weather[0].icon
   let region = json.name
+  
   console.log(iconcode)
   console.log(region)
   console.log(json.main.temp + " celcius grader")
 
+  // Resets temperature info + creates new img element for weather icon
+  document.getElementById("temp").innerHTML=""
+  let ImgElement = document.createElement('img');
+  ImgElement.id="weatherFrame"
+  document.getElementById("temp").appendChild(ImgElement);
+
   weatherFrame = document.getElementById("weatherFrame")
   weatherFrame.src="http://openweathermap.org/img/w/" + iconcode + ".png";
-  document.getElementById("weatherInfo").innerHTML = temp + "\n" + region
+  document.getElementById("weatherInfo").innerHTML = temp + "\n" + region + "," + country;
+  document.getElementById("temp").innerHTML += temp + "°C";
   });
 }
 
