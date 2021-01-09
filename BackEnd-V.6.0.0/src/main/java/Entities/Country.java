@@ -2,21 +2,25 @@ package Entities;
 
 public class Country {
 
-    private String country = "";
-
-    public Country (String country) {
-        this.country = country;
-    }
+    public String countryName = "";
+    public String top50Playlist = "";
 
     public Country () {
-
     }
 
-    public String getCountry() {
-        return country;
+    public String getCountryName() {
+        return countryName;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public String getTop50Playlist() {
+        return top50Playlist;
+    }
+
+    public void setTop50Playlist(String top50Playlist) {
+        this.top50Playlist = top50Playlist;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }

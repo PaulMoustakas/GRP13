@@ -8,6 +8,7 @@
     <link href="CSS/style.css" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGlmrguKs4mueGcNXsWxXSLzsB5EjmPGk&callback=initMap&libraries=&v=weekly" defer></script>
     <script src="JS/app.js"></script>
+    
   </head>
   <body>
     <div class="collapse" id="navbarToggleExternalContent">
@@ -23,17 +24,21 @@
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
-      
-      
+
     </nav>
     
     <div id="map"></div>
+
     <div>
       <a href="https://twitter.com/intent/tweet?button_hashtag=Drake&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #Drake</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
     <div id="player">    
       <iframe id="iframe"></iframe>
-      
+      <div id="weather">    
+        <img src="" id="weatherFrame">
+        <p id=weatherInfo></p>
+      </div>
     </div>
+
   </body>
 </html>
