@@ -2,6 +2,9 @@ package Entities;
 import javax.swing.*;
 import java.sql.*;
 
+
+
+/*
 public class DB_Connection {
 
     private Connection connection = null;
@@ -77,3 +80,6 @@ public class DB_Connection {
         return country;
     }
 }
+
+
+ */
