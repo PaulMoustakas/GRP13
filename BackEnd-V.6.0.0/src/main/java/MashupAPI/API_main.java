@@ -21,7 +21,6 @@ import static spark.Spark.*;
 public class API_main {
 
     private DB_Connection connection;
-    private Stack stack;
     private Gson gson;
 
     /**
@@ -36,7 +35,6 @@ public class API_main {
 
         port(3000);
         gson = new Gson();
-        stack = new Stack();
 
         connection = new DB_Connection();
         connection.setupDB();
@@ -107,10 +105,10 @@ public class API_main {
                     .asJson();
 
 
-            if(playlistRequest.getBody().toString().length() > 15) {
+            if(playlistRequest.getBody().toString().length() >= 15) {
 
                 try {
-
+                    Stack stack = new Stack();
                     Scanner scanner = new Scanner(playlistRequest.getBody().toString());
                     String playlistID;
                     scanner.useDelimiter(",");
@@ -120,7 +118,6 @@ public class API_main {
                     }
 
                     playlistID = stack.pop().toString().substring(6, 28);
-                    stack.removeAllElements();
                     System.out.println(playlistID);
 
                     country.setCountryName(country.countryName);
@@ -128,12 +125,8 @@ public class API_main {
 
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    country.setTop50Playlist("This country does not have Spotify");
                 }
-            }
-
-            else {
-                System.out.println("This country does not have Spotify.");
             }
 
             return country.top50Playlist;
