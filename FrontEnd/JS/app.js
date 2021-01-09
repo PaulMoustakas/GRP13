@@ -19,7 +19,7 @@ function initMap() {
   map.setOptions({ minZoom: 2, maxZoom: 6 });
 }
 
-      
+
 function geocodeLatLng(geocoder, map, cordi) {
   console.log(cordi.lat)
   console.log(cordi.lng)
@@ -27,7 +27,7 @@ function geocodeLatLng(geocoder, map, cordi) {
     lat: cordi.lat,
     lng: cordi.lng,
   };
-  
+
   geocoder.geocode({ location: latlng }, (results, status) => {
     if (status === "OK") {
       if (results[0]){
@@ -35,34 +35,23 @@ function geocodeLatLng(geocoder, map, cordi) {
       for (let index = 0; index < results[0].address_components.length; index++) {
         if (results[0].address_components[index].types[0] == "country") {
             let country = results[0].address_components[index].long_name
-            
+
             getWeather(cordi.lat,cordi.lng,country);
-            // Skapar ett objekt med countryName 
+            // Skapar ett objekt med countryName
             var data = {};
+            var playlistID;
             data.countryName = country;
 
             $.ajax({
-              method: "POST",
-              url: 'http://localhost:3000/country',
+              method: "GET",
+              url: 'http://localhost:3000/' + data.countryName,
               data: JSON.stringify(data),
               headers: {"Accept": "application/json"}
             })
             .done(function(result) {
-            });            
-            
-
-            //Ajax func för att hämta playlist id --> ID
-            $.ajax({
-              method: "GET",
-              url: 'http://localhost:3000/playlist',
-              headers: {"Accept": "application/json"}
-            })
-            .done(function(data) {
-              console.log(data)
-              console.log(data[0])
-              playlistID = data[0] 
+              let playlistID = result;
             });
-            
+
             infographic = document.getElementById("infographic")
             let iframe = document.getElementById("iframe")
             infographic.style.display = "block"
@@ -77,13 +66,13 @@ function geocodeLatLng(geocoder, map, cordi) {
             // Playlist-ID från Backend
             // let playlistID = ""
             // iframe.src = "https://open.spotify.com/embed/album/" + playlistID
-            
+
             //Temporära värden, ska tas bort
-            let SE = "46sPNZPmAAGf40agv6QUJm"
+            let SE = playlistID;
             let ES = "37i9dQZEVXbNFJfN1Vw8d9"
 
             if (country == "Sverige") {
-            iframe.src = "https://open.spotify.com/embed/album/" + SE
+            iframe.src = "https://open.spotify.com/embed/playlist/" + SE
             }
             else if (country == "Spanien") {
             iframe.src = "https://open.spotify.com/embed/playlist/" + ES
@@ -109,11 +98,11 @@ let weatherFrame = document.getElementById("weatherFrame")
 function getWeather(lat,lon, country) {
 
   $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat +"&lon=" + lon + "&units=metric&appid=ccb56b0d59812fced4e6355440154d34",function(json){
-  // console.log(JSON.stringify(json)) 
+  // console.log(JSON.stringify(json))
   let temp = json.main.temp.toFixed(0)
   let iconcode = json.weather[0].icon
   let region = json.name
-  
+
   console.log(iconcode)
   console.log(region)
   console.log(json.main.temp + " celcius grader")

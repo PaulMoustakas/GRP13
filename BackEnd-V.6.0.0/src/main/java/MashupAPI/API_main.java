@@ -63,11 +63,10 @@ public class API_main {
 
 
 
-        get("/country", (req,res)->{
+        get("/:country", (req,res)->{
                     res.type("application/json");
-                    Country country = gson.fromJson(req.body(), Country.class);
-                    res.body(String.valueOf(spotifyConnection(country)));
-
+                    String country = req.params(":country");
+                    res.body(spotifyConnection(country));
                     return res.body();
         });
     }
@@ -81,9 +80,11 @@ public class API_main {
      * @return
      */
 
-    public String spotifyConnection(Country country) {
+    public String spotifyConnection(String country) {
 
-        System.out.println("Country to use in Spotify API query:  " + country.countryName);
+        Country queryCountry = new Country();
+
+        System.out.println("Country to use in Spotify API query:  " + country);
         String URL = "https://accounts.spotify.com/api/token";
 
         HttpResponse<JsonNode> authRequest = Unirest.post(URL)
@@ -99,7 +100,7 @@ public class API_main {
 
             HttpResponse <JsonNode> playlistRequest = Unirest.get(apiURL)
                     .header("Authorization", "Bearer " + authString)
-                    .queryString("q", "Top 50 " + country.countryName + " charts")
+                    .queryString("q", "Top 50 " + country + " charts")
                     .queryString("type", "playlist")
                     .queryString("limit", "1")
                     .asJson();
@@ -120,16 +121,16 @@ public class API_main {
                     playlistID = stack.pop().toString().substring(6, 28);
                     System.out.println(playlistID);
 
-                    country.setCountryName(country.countryName);
-                    country.setTop50Playlist(playlistID);
+                    queryCountry.setCountryName(country);
+                    queryCountry.setTop50Playlist(playlistID);
 
 
                 } catch (Exception e) {
-                    country.setTop50Playlist("This country does not have Spotify");
+                    queryCountry.setTop50Playlist("This country does not have Spotify");
                 }
             }
 
-            return country.top50Playlist;
+            return queryCountry.getTop50Playlist();
     }
 }
 
