@@ -18,7 +18,6 @@ import static spark.Spark.*;
 
 
 public class API_main {
-
     private Gson gson;
 
     /**
@@ -63,6 +62,9 @@ public class API_main {
             return res.body();
         });
     }
+
+
+
 
     /**
      * Receives the country from the post method, acquires
