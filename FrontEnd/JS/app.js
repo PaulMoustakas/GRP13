@@ -39,17 +39,21 @@ function geocodeLatLng(geocoder, map, cordi) {
             getWeather(cordi.lat,cordi.lng,country);
             // Skapar ett objekt med countryName
             var data = {};
-            var playlistID;
+            let playlistID;
             data.countryName = country;
 
             $.ajax({
               method: "GET",
-              url: 'http://localhost:3000/' + data.countryName,
+              url: 'http://localhost:3000' + data.countryName,
               data: JSON.stringify(data),
               headers: {"Accept": "application/json"}
             })
             .done(function(result) {
-              let playlistID = result;
+
+              console.log(json.result);
+              console.log("Hej");
+              let playlistID = result.top50Playlist;
+              console.log(playlistID);
             });
 
             infographic = document.getElementById("infographic")
@@ -63,20 +67,19 @@ function geocodeLatLng(geocoder, map, cordi) {
             //   infographic.style.display = "block"
             // }
 
-            // Playlist-ID från Backend
-            // let playlistID = ""
-            // iframe.src = "https://open.spotify.com/embed/album/" + playlistID
+
+            iframe.src = "https://open.spotify.com/embed/playlist/" + playlistID
 
             //Temporära värden, ska tas bort
-            let SE = playlistID;
-            let ES = "37i9dQZEVXbNFJfN1Vw8d9"
-
-            if (country == "Sverige") {
-            iframe.src = "https://open.spotify.com/embed/playlist/" + SE
-            }
-            else if (country == "Spanien") {
-            iframe.src = "https://open.spotify.com/embed/playlist/" + ES
-            }
+            // let SE = playlistID;
+            // let ES = "37i9dQZEVXbNFJfN1Vw8d9"
+            //
+            // if (country == "Sverige") {
+            // iframe.src = "https://open.spotify.com/embed/playlist/" + SE
+            // }
+            // else if (country == "Spanien") {
+            // iframe.src = "https://open.spotify.com/embed/playlist/" + ES
+            // }
 
             // iframe.allowtransparency = "true"  //Nödvändig?
             iframe.allow = "encrypted-media"
