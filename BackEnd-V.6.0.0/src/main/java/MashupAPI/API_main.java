@@ -37,7 +37,7 @@ public class API_main {
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
 
             if (accessControlRequestHeaders != null) {
-                        response.header("Access-Control-Allow-Headers",
+                response.header("Access-Control-Allow-Headers",
                         accessControlRequestHeaders);
             }
 
@@ -57,7 +57,9 @@ public class API_main {
         get("/:country", (req,res)->{
             res.type("application/json");
             String country = req.params(":country");
-            res.body(spotifyConnection(country));
+            Country queryCountry = new Country();
+
+            res.body(gson.toJson(spotifyConnection(queryCountry)));
 
             return res.body();
         });
@@ -71,15 +73,15 @@ public class API_main {
      * an access token to the SPOTIFY API through a POST-request
      * and then uses the token and country name to search the
      * SPOTIFY API for the correct top 50 playlist.
-     * @param country
+     //     * @param country
      * @return
      */
 
-    public String spotifyConnection(String country) {
+    public Country spotifyConnection(Country queryCountry) {
 
-        Country queryCountry = new Country();
 
-        System.out.println("Country to use in Spotify API query:  " + country);
+
+        System.out.println("Country to use in Spotify API query:  " + "Sweden");
         String URL = "https://accounts.spotify.com/api/token";
 
         HttpResponse<JsonNode> authRequest = Unirest.post(URL)
@@ -94,7 +96,7 @@ public class API_main {
 
         HttpResponse<JsonNode> playlistRequest = Unirest.get(apiURL)
                 .header("Authorization", "Bearer " + authString)
-                .queryString("q", "Top 50 " + country + " charts")
+                .queryString("q", "Top 50 " + "Sweden" + " charts")
                 .queryString("type", "playlist")
                 .queryString("limit", "1")
                 .asJson();
@@ -113,15 +115,19 @@ public class API_main {
                 playlistID = stack.pop().toString().substring(6, 28);
                 System.out.println(playlistID);
 
-                queryCountry.setCountryName(country);
+                queryCountry.setCountryName("Sweden");
                 queryCountry.setTop50Playlist(playlistID);
+                System.out.println(queryCountry);
+                System.out.println(queryCountry.getTop50Playlist());
+
 
             } catch (Exception e) {
                 queryCountry.setTop50Playlist("This country does not have Spotify");
                 System.err.println("Not a valid country Exeption | API_main | Row 122 ");
             }
         }
-        return queryCountry.getTop50Playlist();
+        return queryCountry;
+
     }
 }
 
