@@ -117,7 +117,7 @@ public class API_main {
 
                 queryCountry.setCountryName("Sweden");
                 queryCountry.setTop50Playlist(playlistID);
-                System.out.println(queryCountry);
+//                System.out.println(queryCountry);
                 System.out.println(queryCountry.getTop50Playlist());
 
 
