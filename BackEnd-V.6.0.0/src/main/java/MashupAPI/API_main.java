@@ -52,8 +52,6 @@ public class API_main {
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
 
-
-        // Get playlist {country}
         get("/:country", (req,res)->{
             res.type("application/json");
             Country queryCountry = new Country();
@@ -112,7 +110,7 @@ public class API_main {
 
                 System.out.println(playlistID);
                 queryCountry.setTop50Playlist(playlistID);
-                
+
             } catch (Exception e) {
                 queryCountry.setTop50Playlist("undefined");
                 System.err.println("Not a valid country Exeption | API_main | Row 122 ");

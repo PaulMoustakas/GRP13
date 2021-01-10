@@ -2,8 +2,8 @@ package Entities;
 
 public class Country {
 
-    public String countryName = "";
-    public String top50Playlist = "";
+    private String countryName = "";
+    private String top50Playlist = "";
 
     public Country () {
     }
