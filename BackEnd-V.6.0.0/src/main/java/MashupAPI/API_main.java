@@ -57,6 +57,7 @@ public class API_main {
         get("/:country", (req,res)->{
             res.type("application/json");
             Country queryCountry = new Country();
+            queryCountry.setCountryName(req.params("country"));
             res.body(gson.toJson(spotifyConnection(queryCountry)));
             return res.body();
         });
@@ -91,7 +92,7 @@ public class API_main {
 
         HttpResponse<JsonNode> playlistRequest = Unirest.get(apiURL)
                 .header("Authorization", "Bearer " + authString)
-                .queryString("q", "Top 50 " + "Sweden" + " charts")
+                .queryString("q", "Top 50 " + queryCountry.getCountryName() + " charts")
                 .queryString("type", "playlist")
                 .queryString("limit", "1")
                 .asJson();
@@ -108,16 +109,12 @@ public class API_main {
                 }
 
                 playlistID = stack.pop().toString().substring(6, 28);
+
                 System.out.println(playlistID);
-
-                queryCountry.setCountryName("Sweden");
                 queryCountry.setTop50Playlist(playlistID);
-//                System.out.println(queryCountry);
-                System.out.println(queryCountry.getTop50Playlist());
-
-
+                
             } catch (Exception e) {
-                queryCountry.setTop50Playlist("This country does not have Spotify");
+                queryCountry.setTop50Playlist("undefined");
                 System.err.println("Not a valid country Exeption | API_main | Row 122 ");
             }
         }
