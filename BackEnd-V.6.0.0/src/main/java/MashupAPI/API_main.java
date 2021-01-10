@@ -56,11 +56,8 @@ public class API_main {
         // Get playlist {country}
         get("/:country", (req,res)->{
             res.type("application/json");
-            String country = req.params(":country");
             Country queryCountry = new Country();
-
             res.body(gson.toJson(spotifyConnection(queryCountry)));
-
             return res.body();
         });
     }
@@ -79,9 +76,7 @@ public class API_main {
 
     public Country spotifyConnection(Country queryCountry) {
 
-
-
-        System.out.println("Country to use in Spotify API query:  " + "Sweden");
+        System.out.println("Country to use in Spotify API query" + queryCountry.getCountryName());
         String URL = "https://accounts.spotify.com/api/token";
 
         HttpResponse<JsonNode> authRequest = Unirest.post(URL)
