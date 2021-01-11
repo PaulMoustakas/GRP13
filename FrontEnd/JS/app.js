@@ -45,6 +45,11 @@ function geocodeLatLng(geocoder, map, cordi) {
 
             function sendText(information) {
               console.log(information)
+              wikiAdress = "https://en.wikipedia.org/wiki/" + data.countryName
+              let linkElement = document.createElement('a');
+              linkElement.innerHTML="Read More"      
+              linkElement.href="wikiAdress"
+              console.log(linkElement)
               wikiInfo.innerHTML=information
             }
             function sendPlaylist(id) {
