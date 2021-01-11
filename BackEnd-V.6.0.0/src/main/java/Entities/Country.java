@@ -4,8 +4,17 @@ public class Country {
 
     private String countryName = "";
     private String top50Playlist = "";
+    private String wikiText = "";
 
     public Country () {
+    }
+
+    public String getWikiText() {
+        return wikiText;
+    }
+
+    public void setWikiText(String wikiText) {
+        this.wikiText = wikiText;
     }
 
     public String getCountryName() {

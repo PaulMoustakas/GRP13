@@ -43,6 +43,15 @@ function geocodeLatLng(geocoder, map, cordi) {
             let playlistID;
             data.countryName = country;
 
+            function sendText(information) {
+              console.log(information)
+              wikiAdress = "https://en.wikipedia.org/wiki/" + data.countryName
+              let linkElement = document.createElement('a');
+              linkElement.innerHTML="Read More"      
+              linkElement.href="wikiAdress"
+              console.log(linkElement)
+              wikiInfo.innerHTML=information
+            }
             function sendPlaylist(id) {
                   iframe.src = "https://open.spotify.com/embed/playlist/" + id
                   iframe.allow = "encrypted-media"
@@ -54,7 +63,7 @@ function geocodeLatLng(geocoder, map, cordi) {
 
                 $.ajax({
                   method: "GET",
-                  url: 'http://localhost:3000/' + data.countryName,
+                  url: 'http://localhost:3000/playlist/' + data.countryName,
                   data: JSON.stringify(data),
                   headers: {"Accept": "application/json"},
 
@@ -73,11 +82,36 @@ function geocodeLatLng(geocoder, map, cordi) {
                   sendPlaylist(playlistID);
                 });
 
+                // Wikipedia GET API call
+                $.ajax({
+                  method: "GET",
+                  url: 'http://localhost:3000/information/' + data.countryName,
+                  data: JSON.stringify(data),
+                  headers: {"Accept": "application/json"},
+
+                  success: function() {
+                 console.log('AJAX CALL succesfull');
+              },
+
+                error: function() {
+                 console.error('Ajax call failed');
+
+              }
+                })
+
+                .done(function(result) {
+                  console.log(result.wikiText)
+                  let information = result.wikiText;
+                  sendText(information);
+                });
+
+
                 let infographic = document.getElementById("infographic")
                 let iframe = document.getElementById("iframe")
                 infographic.style.display = "block"
                 let map = document.getElementById("map")
                 map.style.height = "40%"
+                let wikiInfo = document.getElementById("wikiInfo")
 
                 // Kontrollerar om Spotify spelaren ej visas.
                 // if (infographic.style.display === "none") {
