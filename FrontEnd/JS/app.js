@@ -38,51 +38,77 @@ function geocodeLatLng(geocoder, map, cordi) {
 
             getWeather(cordi.lat,cordi.lng,country);
             // Skapar ett objekt med countryName
+
             var data = {};
             let playlistID;
             data.countryName = country;
 
-            $.ajax({
-              method: "GET",
-              url: 'http://localhost:3000' + data.countryName,
-              data: JSON.stringify(data),
-              headers: {"Accept": "application/json"}
-            })
-            .done(function(result) {
+            function sendText(information) {
+              console.log(information)
+              wikiInfo.innerHTML=information
+            }
+            function sendPlaylist(id) {
+                  iframe.src = "https://open.spotify.com/embed/playlist/" + id
+                  iframe.allow = "encrypted-media"
+                }
 
-              console.log(json.result);
-              console.log("Hej");
-              let playlistID = result.top50Playlist;
-              console.log(playlistID);
-            });
+                $.ajax({
+                  method: "GET",
+                  url: 'http://localhost:3000/playlist/' + data.countryName,
+                  data: JSON.stringify(data),
+                  headers: {"Accept": "application/json"},
 
-            infographic = document.getElementById("infographic")
-            let iframe = document.getElementById("iframe")
-            infographic.style.display = "block"
-            let map = document.getElementById("map")
-            map.style.height = "40%"
+                  success: function() {
+                 console.log('AJAX CALL succesfull');
+              },
 
-            // Kontrollerar om Spotify spelaren ej visas.
-            // if (infographic.style.display === "none") {
-            //   infographic.style.display = "block"
-            // }
+                error: function() {
+                 console.error('Ajax call failed');
+
+              }
+                })
+
+                .done(function(result) {
+                  let playlistID = result.top50Playlist;
+                  sendPlaylist(playlistID);
+                });
+
+                // Wikipedia GET API call
+                $.ajax({
+                  method: "GET",
+                  url: 'http://localhost:3000/information/' + data.countryName,
+                  data: JSON.stringify(data),
+                  headers: {"Accept": "application/json"},
+
+                  success: function() {
+                 console.log('AJAX CALL succesfull');
+              },
+
+                error: function() {
+                 console.error('Ajax call failed');
+
+              }
+                })
+
+                .done(function(result) {
+                  console.log(result.wikiText)
+                  let information = result.wikiText;
+                  sendText(information);
+                });
 
 
-            iframe.src = "https://open.spotify.com/embed/playlist/" + playlistID
+                let infographic = document.getElementById("infographic")
+                let iframe = document.getElementById("iframe")
+                infographic.style.display = "block"
+                let map = document.getElementById("map")
+                map.style.height = "40%"
+                let wikiInfo = document.getElementById("wikiInfo")
 
-            //Temporära värden, ska tas bort
-            // let SE = playlistID;
-            // let ES = "37i9dQZEVXbNFJfN1Vw8d9"
-            //
-            // if (country == "Sverige") {
-            // iframe.src = "https://open.spotify.com/embed/playlist/" + SE
-            // }
-            // else if (country == "Spanien") {
-            // iframe.src = "https://open.spotify.com/embed/playlist/" + ES
-            // }
+                // Kontrollerar om Spotify spelaren ej visas.
+                // if (infographic.style.display === "none") {
+                //   infographic.style.display = "block"
+                // }
 
-            // iframe.allowtransparency = "true"  //Nödvändig?
-            iframe.allow = "encrypted-media"
         }
       }
       }
