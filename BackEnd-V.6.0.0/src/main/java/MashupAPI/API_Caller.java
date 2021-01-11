@@ -8,7 +8,6 @@ import kong.unirest.json.JSONObject;
 import java.util.Scanner;
 import java.util.Stack;
 
-
 /**
  * Class hold the possible API connections
  * @author GRP 13, Malmö Universitet - Webtjänster
@@ -16,27 +15,25 @@ import java.util.Stack;
  */
 public class API_Caller {
 
-
     /**
      * Method collects information from Wikipedia based on country input.
      * @param queryCountry Country Object
      * @return JSON Object representing the country with Wikipedia information
      */
-    public Country wikipediaConnection (Country queryCountry) {
+    public Country wikipediaConnection(Country queryCountry) {
 
         System.out.println("Country to use in Wikipedia API query: " + queryCountry.getCountryName());
         String URL = "http://en.wikipedia.org/w/api.php";
 
         HttpResponse<JsonNode> wikiRequest = Unirest.get(URL)
-                .queryString("format", "json")
-                .queryString("action", "query")
-                .queryString("prop", "extracts")
-                .queryString("exlimit", "max")
-                .queryString("explaintext", "")
-                .queryString("exintro", "")
-                .queryString("titles", queryCountry.getCountryName())
-                .asJson();
-
+                    .queryString("format", "json")
+                    .queryString("action", "query")
+                    .queryString("prop", "extracts")
+                    .queryString("exlimit", "max")
+                    .queryString("explaintext", "")
+                    .queryString("exintro", "")
+                    .queryString("titles", queryCountry.getCountryName())
+                    .asJson();
         try {
             Stack<String> stack = new Stack<>();
             Scanner scanner = new Scanner(wikiRequest.getBody().toString());
@@ -48,67 +45,69 @@ public class API_Caller {
             }
 
             wikiText = stack.pop();
-            queryCountry.setWikiText(wikiText.substring(3, wikiText.length()-17));
+            queryCountry.setWikiText(wikiText.substring(3, wikiText.length() - 17));
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            queryCountry.setWikiText("undefined");
+            System.err.println("Not a valid country Exception | API_Caller | Row 53 ");
         }
         return queryCountry;
     }
 
 
+        /**
+         * Method retrieves a playlist from Spotify based on country input.
+         *
+         * @param queryCountry Country Object
+         * @return JSON Object representing the country object with a Spotify top 50 Playlist
+         */
+        public Country spotifyConnection(Country queryCountry) {
 
-    /**
-     * Method retrieves a playlist from Spotify based on country input.
-     * @param queryCountry Country Object
-     * @return JSON Object representing the country object with a Spotify top 50 Playlist
-     */
-    public Country spotifyConnection(Country queryCountry) {
+            System.out.println("Country to use in Spotify API query: " + queryCountry.getCountryName());
+            String URL = "https://accounts.spotify.com/api/token";
 
-        System.out.println("Country to use in Spotify API query: " + queryCountry.getCountryName());
-        String URL = "https://accounts.spotify.com/api/token";
+            HttpResponse<JsonNode> authRequest = Unirest.post(URL)
+                    .basicAuth("74259314b7904a7b827c730f5f7d3cd8", "0e00d4fa078b449e95578569289f01fd")
+                    .field("grant_type", "client_credentials")
+                    .asJson();
 
-        HttpResponse<JsonNode> authRequest = Unirest.post(URL)
-                .basicAuth("74259314b7904a7b827c730f5f7d3cd8", "0e00d4fa078b449e95578569289f01fd")
-                .field("grant_type", "client_credentials")
-                .asJson();
+            System.out.println(authRequest.getBody());
+            JSONObject jsonAuth = authRequest.getBody().getObject();
+            String authString = jsonAuth.getString("access_token");
 
-        System.out.println(authRequest.getBody());
-        JSONObject jsonAuth = authRequest.getBody().getObject();
-        String authString = jsonAuth.getString("access_token");
+            String apiURL = "https://api.spotify.com/v1/search";
 
-        String apiURL = "https://api.spotify.com/v1/search";
-
-        HttpResponse<JsonNode> playlistRequest = Unirest.get(apiURL)
-                .header("Authorization", "Bearer " + authString)
-                .queryString("q", "Top 50 " + queryCountry.getCountryName() + " charts")
-                .queryString("type", "playlist")
-                .queryString("limit", "1")
-                .asJson();
+            HttpResponse<JsonNode> playlistRequest = Unirest.get(apiURL)
+                    .header("Authorization", "Bearer " + authString)
+                    .queryString("q", "Top 50 " + queryCountry.getCountryName() + " charts")
+                    .queryString("type", "playlist")
+                    .queryString("limit", "1")
+                    .asJson();
 
 
-        if (playlistRequest.getBody().toString().length() >= 15) {
-            try {
-                Stack<String> stack = new Stack<>();
-                Scanner scanner = new Scanner(playlistRequest.getBody().toString());
-                String playlistID;
-                scanner.useDelimiter(",");
+            if (playlistRequest.getBody().toString().length() >= 15) {
+                try {
+                    Stack<String> stack = new Stack<>();
+                    Scanner scanner = new Scanner(playlistRequest.getBody().toString());
+                    String playlistID;
+                    scanner.useDelimiter(",");
 
-                while (scanner.hasNextLine() && stack.size() < 6) {
-                    stack.push(scanner.next());
+                    while (scanner.hasNextLine() && stack.size() < 6) {
+                        stack.push(scanner.next());
+                    }
+
+                    playlistID = stack.pop().substring(6, 28);
+
+                    System.out.println(playlistID);
+                    queryCountry.setTop50Playlist(playlistID);
+
+                } catch (Exception e) {
+                    queryCountry.setTop50Playlist("undefined");
+                    System.err.println("Not a valid country Exception | API_Caller | Row 107 ");
                 }
-
-                playlistID = stack.pop().substring(6, 28);
-
-                System.out.println(playlistID);
-                queryCountry.setTop50Playlist(playlistID);
-
-            } catch (Exception e) {
-                queryCountry.setTop50Playlist("undefined");
-                System.err.println("Not a valid country Exeption | API_main | Row 122 ");
             }
+            return queryCountry;
         }
-        return queryCountry;
     }
-}
+
