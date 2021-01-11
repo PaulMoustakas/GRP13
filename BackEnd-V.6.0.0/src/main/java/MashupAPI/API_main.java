@@ -9,13 +9,14 @@ import static spark.Spark.*;
  * @author GRP 13, Malmö Universitet - Webbtjänster DA159A & DA358A
  * @version 6.0.0
  */
+
 public class API_main {
 
     private Gson gson;
     private API_Caller caller;
 
 
-    public API_main() {
+    API_main() {
         port(3000); // PORT
         gson = new Gson();
         caller = new API_Caller();

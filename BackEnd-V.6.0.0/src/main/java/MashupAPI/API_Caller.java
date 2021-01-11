@@ -18,14 +18,15 @@ import java.util.Stack;
  * @author GRP 13, Malmö Universitet - Webbtjänster DA159A & DA358A
  * @version 6.0.0
  */
-public class API_Caller {
+
+class API_Caller {
 
     /**
      * Method collects information from Wikipedia based on country input.
      * @param queryCountry Country Object
      * @return JSON Object representing the country with related Wikipedia information
      */
-    public Country wikipediaConnection(Country queryCountry) {
+    Country wikipediaConnection(Country queryCountry) {
 
         System.out.println("Country to use in Wikipedia API query: " + queryCountry.getCountryName());
         String URL = "http://en.wikipedia.org/w/api.php";
@@ -66,7 +67,7 @@ public class API_Caller {
          * @param queryCountry Country Object
          * @return JSON Object representing the country object with a Spotify top 50 Playlist
          */
-        public Country spotifyConnection(Country queryCountry) {
+        Country spotifyConnection(Country queryCountry) {
 
             System.out.println("Country to use in Spotify API query: " + queryCountry.getCountryName());
             String URL = "https://accounts.spotify.com/api/token";
