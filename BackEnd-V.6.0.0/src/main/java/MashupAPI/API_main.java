@@ -1,17 +1,6 @@
 package MashupAPI;
 import Entities.Country;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
-import kong.unirest.json.JSONObject;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.Stack;
 import static spark.Spark.*;
 
 /**
@@ -26,7 +15,7 @@ public class API_main {
 
     private Gson gson;
     private API_Caller caller;
-    
+
 
     public API_main() {
 
