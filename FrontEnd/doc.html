@@ -10,11 +10,11 @@
     <script src="JS/app.js"></script>
     <title>SpotiMap</title>
 </head>
-    
+
 <body>
-    
+
     <nav class="navbar navbar-expand-lg navbar-light">
-    
+
         <div class="container-fluid">
             <a href="/FrontEnd/index.html">
                 <p id="SpotiNav">SpotiMap</p>
@@ -36,41 +36,41 @@
         <div class="col-sm-8">
             <h4><p id="Spoti">SpotiMap</p>API Dokumentation</h4>
             <p>
-                Här återfinns all information som är av vikt för att kunna söka på ett specifikt lands topp 50 lista på spotify utifrån enbart namnet på det specifika landet. Dessutom erhålls vidare information om det specifika landet i brödtext från Wikipedia. Med andra ord, se nedan för vidare beskrivning och dokumentation för att använda SpotiMaps API. 
+                Här återfinns all information som är av vikt för att kunna söka på ett specifikt lands topp-50 lista på Spotify utifrån enbart namnet på det specifika landet. Dessutom erhålls vidare information om det specifika landet i brödtext från Wikipedia. Med andra ord, se nedan för vidare beskrivning och dokumentation för att använda SpotiMaps API.
             </p>
         </div>
     </div>
 
-    <div class="row justify-content-md-center">    
-        
+    <div class="row justify-content-md-center">
+
         <div class="col-sm-8">
             <h4>Kort API beskrivning</h4>
             <p>
-                Detta API gör det möjligt att få ut en spotify spellista genom dess unika ID, detta nås med hjälp av ett specifikt land skrivet på svenska.
-                Användaren byter ut {country} i GET funktionen till de land vars topp 50 lista på Spotify de eftersöker.
+                Detta API gör det möjligt att få ut en Spotify spellista genom dess unika ID, detta nås med hjälp av ett specifikt land skrivet på engelska/svenska.
+                Användaren byter ut {country} i GET funktionen till de land vars topp-50 lista på Spotify de eftersöker.
                 Ytterligare information får man även om det eftersökta landet genom Wikipedias API.
                 <br>
-                Vårt API accepterar indata i form av JSON och returnerar JSON objekt tillbaka till användaren. 
+                Vårt API accepterar indata i form av JSON och returnerar JSON objekt tillbaka till användaren.
             </p>
         </div>
-        
+
     </div>
 
-    <div class="mt-60 row justify-content-md-center">    
+    <div class="mt-60 row justify-content-md-center">
         <div class="col-sm-4">
             <h5>GET /playlist/{country}</h5>
-            <p>Returnerar ett ID för en specifik spellista från spotify, utifrån landet.</p>
+            <p>Returnerar ett ID för en specifik spellista från Spotify, utifrån landet.</p>
             <p>Se exempel för returdata till höger</p>
         </div>
 
         <div class="col-sm-1">
         <img id="arrow" src="https://freeiconshop.com/wp-content/uploads/edd/arrow-flat.png" alt="">
         </div>
-        
+
         <div class="col-sm-4">
             <ul class="light-grey">
                 <li>Indata: -</li>
-                <br>                
+                <br>
                 <li><strong>Returdata (exempel):</strong></li>
                 <li>{</li>
                 <li>"countryName":":Sverige",</li>
@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-md-center">    
+    <div class="row justify-content-md-center">
         <div class="col-sm-4 mt-60">
             <h5>GET /information/{country}</h5>
             <p>Returnerar information om et specifikt land</p>
@@ -94,12 +94,12 @@
         <div class="col-sm-4">
             <ul class="light-grey mt-50">
                 <li>Indata: -</li>
-                <br>                
+                <br>
                 <li><strong>Returdata (exempel):</strong></li>
                 <li>{</li>
                 <li>"countryName":"Sweden",</li>
                 <li>"top50Playlist":"",</li>
-                <li>"wikiText":"Sweden (; Swedish: Sverige [ˈsvæ̌rjɛ] (listen)), officially the Kingdom of Sweden (Swedish: 
+                <li>"wikiText":"Sweden (; Swedish: Sverige [ˈsvæ̌rjɛ] (listen)), officially the Kingdom of Sweden (Swedish:
                     Konungariket Sverige [ˈkôːnɵŋaˌriːkɛt ˈsvæ̌rjɛ] (listen)), is a Nordic country in Northern Europe.
                     It borders Norway to the west and north, Finland to the east, and is connected to Denmark in the southwest by a bridge-tunnel across the Öresund Strait."</li>
                 <li>}</li>
