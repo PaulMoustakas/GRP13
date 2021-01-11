@@ -1,10 +1,15 @@
 package MashupAPI;
 import Entities.Country;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Stack;
 import static spark.Spark.*;
@@ -18,20 +23,23 @@ import static spark.Spark.*;
 
 
 public class API_main {
+
     private Gson gson;
+    private API_Caller caller;
 
     /**
      * The /country route recieves a country
      * from the client, converts it from JSON into
      * a JAVA bean using marshalling  and then forwards it
      * to be used as a search term in the Spotify-API.
-     * @throws ClassNotFoundException
+     *
      */
 
-    public API_main () throws ClassNotFoundException {
+    public API_main() {
+
         port(3000);
         gson = new Gson();
-
+        caller = new API_Caller();
 
         options("/*", (request, response) -> {
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -44,7 +52,7 @@ public class API_main {
             String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
 
             if (accessControlRequestMethod != null) {
-                response.header("Access-Control-Allow-Methods",accessControlRequestMethod);
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
             }
             return "OK";
         });
@@ -52,72 +60,22 @@ public class API_main {
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
 
-        get("/:country", (req,res)->{
+        get("playlist/:country", (req, res) -> {
             res.type("application/json");
             Country queryCountry = new Country();
             queryCountry.setCountryName(req.params("country"));
-            res.body(gson.toJson(spotifyConnection(queryCountry)));
+            res.body(gson.toJson(caller.spotifyConnection(queryCountry)));
+            return res.body();
+        });
+
+        get("information/:country", (req, res) -> {
+            res.type("application/json");
+            Country queryCountry = new Country();
+            queryCountry.setCountryName(req.params("country"));
+            res.body(gson.toJson(caller.wikipediaConnection(queryCountry)));
             return res.body();
         });
     }
 
 
-
-
-    /**
-     * Receives the country from the post method, acquires
-     * an access token to the SPOTIFY API through a POST-request
-     * and then uses the token and country name to search the
-     * SPOTIFY API for the correct top 50 playlist.
-     //     * @param country
-     * @return
-     */
-
-    public Country spotifyConnection(Country queryCountry) {
-
-        System.out.println("Country to use in Spotify API query" + queryCountry.getCountryName());
-        String URL = "https://accounts.spotify.com/api/token";
-
-        HttpResponse<JsonNode> authRequest = Unirest.post(URL)
-                .basicAuth("74259314b7904a7b827c730f5f7d3cd8", "0e00d4fa078b449e95578569289f01fd")
-                .field("grant_type", "client_credentials")
-                .asJson();
-
-        JSONObject jsonAuth = authRequest.getBody().getObject();
-        String authString = jsonAuth.getString("access_token");
-
-        String apiURL = "https://api.spotify.com/v1/search";
-
-        HttpResponse<JsonNode> playlistRequest = Unirest.get(apiURL)
-                .header("Authorization", "Bearer " + authString)
-                .queryString("q", "Top 50 " + queryCountry.getCountryName() + " charts")
-                .queryString("type", "playlist")
-                .queryString("limit", "1")
-                .asJson();
-
-        if (playlistRequest.getBody().toString().length() >= 15) {
-            try {
-                Stack stack = new Stack();
-                Scanner scanner = new Scanner(playlistRequest.getBody().toString());
-                String playlistID;
-                scanner.useDelimiter(",");
-
-                while (scanner.hasNextLine() && stack.size() < 6) {
-                    stack.push(scanner.next());
-                }
-
-                playlistID = stack.pop().toString().substring(6, 28);
-
-                System.out.println(playlistID);
-                queryCountry.setTop50Playlist(playlistID);
-
-            } catch (Exception e) {
-                queryCountry.setTop50Playlist("undefined");
-                System.err.println("Not a valid country Exeption | API_main | Row 122 ");
-            }
-        }
-        return queryCountry;
-
-    }
 }
-
