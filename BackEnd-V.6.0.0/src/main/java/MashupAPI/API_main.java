@@ -26,14 +26,7 @@ public class API_main {
 
     private Gson gson;
     private API_Caller caller;
-
-    /**
-     * The /country route recieves a country
-     * from the client, converts it from JSON into
-     * a JAVA bean using marshalling  and then forwards it
-     * to be used as a search term in the Spotify-API.
-     *
-     */
+    
 
     public API_main() {
 
