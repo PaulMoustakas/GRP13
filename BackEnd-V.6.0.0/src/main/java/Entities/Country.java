@@ -4,6 +4,8 @@ package Entities;
  * Class represents a JSON-object
  * containing Top 50 song and information
  * relating to a requested country
+ * @author GRP 13, Malmö Universitet - Webbtjänster DA159A & DA358A
+ * @version 2.0.0
  */
 public class Country {
 

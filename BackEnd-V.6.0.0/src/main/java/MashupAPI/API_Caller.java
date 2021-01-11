@@ -1,24 +1,29 @@
 package MashupAPI;
 
 import Entities.Country;
+import kong.unirest.CookieSpecs;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
+import unirest.shaded.org.apache.http.client.HttpClient;
+import unirest.shaded.org.apache.http.client.config.RequestConfig;
+import unirest.shaded.org.apache.http.impl.client.HttpClients;
+
 import java.util.Scanner;
 import java.util.Stack;
 
 /**
  * Class hold the possible API connections
- * @author GRP 13, Malmö Universitet - Webtjänster
- * @version 1.0.0
+ * @author GRP 13, Malmö Universitet - Webbtjänster DA159A & DA358A
+ * @version 6.0.0
  */
 public class API_Caller {
 
     /**
      * Method collects information from Wikipedia based on country input.
      * @param queryCountry Country Object
-     * @return JSON Object representing the country with Wikipedia information
+     * @return JSON Object representing the country with related Wikipedia information
      */
     public Country wikipediaConnection(Country queryCountry) {
 
@@ -58,7 +63,6 @@ public class API_Caller {
 
         /**
          * Method retrieves a playlist from Spotify based on country input.
-         *
          * @param queryCountry Country Object
          * @return JSON Object representing the country object with a Spotify top 50 Playlist
          */
@@ -72,7 +76,6 @@ public class API_Caller {
                     .field("grant_type", "client_credentials")
                     .asJson();
 
-            System.out.println(authRequest.getBody());
             JSONObject jsonAuth = authRequest.getBody().getObject();
             String authString = jsonAuth.getString("access_token");
 
@@ -98,8 +101,6 @@ public class API_Caller {
                     }
 
                     playlistID = stack.pop().substring(6, 28);
-
-                    System.out.println(playlistID);
                     queryCountry.setTop50Playlist(playlistID);
 
                 } catch (Exception e) {

@@ -6,11 +6,9 @@ import static spark.Spark.*;
 /**
  * Proj X - API mashup
  * Spotify <--> Google maps
- * @author GRP 13
- * @version 2.0.0
+ * @author GRP 13, Malmö Universitet - Webbtjänster DA159A & DA358A
+ * @version 6.0.0
  */
-
-
 public class API_main {
 
     private Gson gson;
@@ -18,8 +16,7 @@ public class API_main {
 
 
     public API_main() {
-
-        port(3000);
+        port(3000); // PORT
         gson = new Gson();
         caller = new API_Caller();
 
@@ -33,7 +30,6 @@ public class API_main {
             if (accessControlRequestMethod != null) {
                 response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
             }
-
             return "OK";
         });
 
@@ -56,6 +52,4 @@ public class API_main {
             return res.body();
         });
     }
-
-
 }
