@@ -4,6 +4,7 @@ script.type = 'text/javascript';
 document.getElementsByTagName('head')[0].appendChild(script);
 
 function initMap() {
+  // Creates the map and visualises it
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
     center: { lat:  39.921, lng: 5.998 },
@@ -13,16 +14,17 @@ function initMap() {
   // Gets latlng from click event
   map.addListener("click", (mapsMouseEvent) => {
     let cordi = mapsMouseEvent.latLng.toJSON()
+    /// Function call with map, geocoder & coordinates in parameter
     geocodeLatLng(geocoder, map, cordi);
   });
-
+  
+  // Inital start zoom on map
   map.setOptions({ minZoom: 2, maxZoom: 6 });
 }
 
 
 function geocodeLatLng(geocoder, map, cordi) {
-  console.log(cordi.lat)
-  console.log(cordi.lng)
+ // Creates latlng obj with coordinates
   const latlng = {
     lat: cordi.lat,
     lng: cordi.lng,
@@ -34,90 +36,82 @@ function geocodeLatLng(geocoder, map, cordi) {
       // Loops trough each type until type country is find.
       for (let index = 0; index < results[0].address_components.length; index++) {
         if (results[0].address_components[index].types[0] == "country") {
+           // Saves longname for country in variable
             let country = results[0].address_components[index].long_name
 
             getWeather(cordi.lat,cordi.lng,country);
-            // Skapar ett objekt med countryName
-
+            
+            // Creates an object with countryName
             var data = {};
-            let playlistID;
             data.countryName = country;
 
             function sendText(information) {
-              console.log(information)
-              wikiAdress = "https://en.wikipedia.org/wiki/" + data.countryName
-              let linkElement = document.createElement('a');
-              linkElement.innerHTML="Read More"      
-              linkElement.href="wikiAdress"
-              console.log(linkElement)
-              wikiInfo.innerHTML=information
+                wikiInfo.innerHTML= information
             }
+
             function sendPlaylist(id) {
-                  iframe.src = "https://open.spotify.com/embed/playlist/" + id
-                  iframe.allow = "encrypted-media"
-                  // Test till att ändra namn i iframe
-                  // let bv = document.getElementsByClassName("ai")[0]
-                  // console.log(bv)
-                  // bv.innerText="Top 50 i" + data.countryName
-                }
+              // Add Playlist ID to Iframe source
+                iframe.src = "https://open.spotify.com/embed/playlist/" + id
+                iframe.allow = "encrypted-media"
+            }
 
-                $.ajax({
-                  method: "GET",
-                  url: 'http://localhost:3000/playlist/' + data.countryName,
-                  data: JSON.stringify(data),
-                  headers: {"Accept": "application/json"},
+            // API call for Playlist ID for a specific country
+            $.ajax({
+              method: "GET",
+              url: 'http://localhost:3000/playlist/' + data.countryName,
+              data: JSON.stringify(data),
+              headers: {"Accept": "application/json"},
 
-                  success: function() {
-                 console.log('AJAX CALL succesfull');
-              },
+              success: function() {
+              console.log('AJAX CALL succesfull');
+            },
 
-                error: function() {
-                 console.error('Ajax call failed');
+              error: function() {
+                console.error('Ajax call failed');
 
-              }
-                })
+            }
+            })
 
-                .done(function(result) {
-                  let playlistID = result.top50Playlist;
-                  sendPlaylist(playlistID);
-                });
+            .done(function(result) {
+              let playlistID = result.top50Playlist;
+              sendPlaylist(playlistID);
+            });
 
-                // Wikipedia GET API call
-                $.ajax({
-                  method: "GET",
-                  url: 'http://localhost:3000/information/' + data.countryName,
-                  data: JSON.stringify(data),
-                  headers: {"Accept": "application/json"},
+            // API call for information text about a specific country
+            $.ajax({
+              method: "GET",
+              url: 'http://localhost:3000/information/' + data.countryName,
+              data: JSON.stringify(data),
+              headers: {"Accept": "application/json"},
 
-                  success: function() {
-                 console.log('AJAX CALL succesfull');
-              },
+              success: function() {
+              console.log('AJAX CALL succesfull');
+            },
 
-                error: function() {
-                 console.error('Ajax call failed');
+            error: function() {
+              console.error('Ajax call failed');
 
-              }
-                })
+            }
+            })
 
-                .done(function(result) {
-                  console.log(result.wikiText)
-                  let information = result.wikiText;
-                  sendText(information);
-                });
+            .done(function(result) {
+              console.log(result.wikiText)
+              let information = result.wikiText;
+              sendText(information);
+            });
+            
 
+            
+            let infographic = document.getElementById("infographic")
+            let iframe = document.getElementById("iframe")
+            let wikiInfo = document.getElementById("wikiInfo")
+            let map = document.getElementById("map")
 
-                let infographic = document.getElementById("infographic")
-                let iframe = document.getElementById("iframe")
-                infographic.style.display = "block"
-                let map = document.getElementById("map")
-                map.style.height = "40%"
-                let wikiInfo = document.getElementById("wikiInfo")
-
-                // Kontrollerar om Spotify spelaren ej visas.
-                // if (infographic.style.display === "none") {
-                //   infographic.style.display = "block"
-                // }
-
+            // Shows infographic on map-clickevent
+            infographic.style.display = "block"
+            
+            // Changes map height on map-clickevent 
+            map.style.height = "40%"
         }
       }
       }
@@ -130,20 +124,17 @@ function geocodeLatLng(geocoder, map, cordi) {
   });
 }
 
-weather = document.getElementById("weather")
+
+let weather = document.getElementById("weather")
 let weatherFrame = document.getElementById("weatherFrame")
 
 function getWeather(lat,lon, country) {
 
-  $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat +"&lon=" + lon + "&units=metric&appid=ccb56b0d59812fced4e6355440154d34",function(json){
-  // console.log(JSON.stringify(json))
-  let temp = json.main.temp.toFixed(0)
-  let iconcode = json.weather[0].icon
-  let region = json.name
-
-  console.log(iconcode)
-  console.log(region)
-  console.log(json.main.temp + " celcius grader")
+  // Webbased API call on openweather with coordinates from map-clickevent 
+  $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat +"&lon=" + lon + "&units=metric&appid=ccb56b0d59812fced4e6355440154d34",function(result){
+  let temp = result.main.temp.toFixed(0)
+  let iconcode = result.weather[0].icon
+  let region = result.name
 
   // Resets temperature info + creates new img element for weather icon
   document.getElementById("temp").innerHTML=""
@@ -157,20 +148,3 @@ function getWeather(lat,lon, country) {
   document.getElementById("temp").innerHTML += temp + "°C";
   });
 }
-
-
-
-
-// {"coord":{"lon":14.359,"lat":59.2932},
-// "weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04n"}],
-// "base":"stations",
-// "main":{"temp":271.31,"feels_like":264.73,"temp_min":269.82,"temp_max":272.15,"pressure":1022,"humidity":80},
-// "visibility":10000,
-// "wind":{"speed":5.7,"deg":50},
-// "clouds":{"all":97},
-// "dt":1609945618,
-// "sys":{"type":1,"id":1777,"country":"SE","sunrise":1609919713,"sunset":1609942875},
-// "timezone":3600,
-// "id":2717881,
-// "name":"Degerfors Kommun",
-// "cod":200}

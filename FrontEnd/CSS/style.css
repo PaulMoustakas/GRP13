@@ -1,5 +1,3 @@
-/* Always set the map height explicitly to define the size of the div
-* element that contains the map. */
 #map {
     height: 80%;
     width: 80%;
@@ -7,16 +5,15 @@
     border-radius: 7px;
     }
     
-    /* Optional: Makes the sample page fill the window. */
-    html,
-    body {
+html,
+body {
     height: 100%;
     padding: 0;
     background-color: rgb(24, 24, 24);
     color: white;
     
     }
-    #title > h1 {
+#title > h1 {
     text-align: center;
     font-family: 'Nunito', sans-serif;
     font-size: 15px;
@@ -26,123 +23,107 @@
     margin: auto;
     }
     
-    #iframe {
-    /* margin-top: 1%;
-    margin-left: 10%;
-    margin-right: auto; */
+#iframe {
     width: 400px;
     height: 380px;
     border: 2px;
     border-radius: 15px;
     box-shadow: 200px grey;
-    }
+    margin-bottom: 25px;
 
-    .card {
-        border-radius: 7px;
+}
+.card {
+    border-radius: 7px;
+}
 
-    }
-
-    
-
-    #infographic {
+#infographic {
     display: none;
-    }
-    
-    /* 
-    #floating-panel {
-    position: absolute;
-    top: 10px;
-    left: 25%;
-    z-index: 5;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #999;
-    text-align: center;
-    font-family: "Roboto", "sans-serif";
-    line-height: 30px;
-    padding-left: 10px;
-    }
-    
-    #floating-panel {
-    position: absolute;
-    top: 5px;
-    left: 50%;
-    margin-left: -180px;
-    width: 350px;
-    z-index: 5;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #999;
-    } */
-    
-    #latlng {
+}
+
+#latlng {
     width: 225px;
-    }
-    
-    #weather {
-        /* margin: auto; */
-        text-align: center;
+}
+
+#weather {
+    text-align: center;
+}
+
+.nav-link {
+    color: white!important;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.582) !important;
+}
+
+
+.custom-sm {
+    flex: 0.5 0 0%;
+}
+
+.bv > span {
+    color: orange!important;
+}
+
+.light-grey {
+    list-style-type: none;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.472);
+    border-radius: 5px;
+}
+
+#arrow {
+    width: 70px;
+    margin-top: 55px;
+}
+
+.col-sm-4 {
+    margin-top: 25px;
+} 
+.col-sm-8 {
+    margin-top: 5%;
+    font-size: 25px;
+} 
+
+h4 {
+    text-align: center;
+    font-size: 40px;
+}
+#Spoti {
+    color: green;
+    font-size: 50px;
+}
+#SpotiNav {
+    color: green;
+    font-size: 30px;
+    margin-right: 15px;
+}
+
+.mt-60 {
+    margin-top: 60px;
+}
+
+.mt-50 {
+    margin-top: 50px;
+}
+
+nav {
+    border-bottom: 5px solid rgb(28, 28, 29);
+    height: 75px;
+}
+
+#wikiInfo{
+    height: 380px;
+    overflow-y: scroll;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border: 2px;
+    border-radius: 15px;
+    box-shadow: 200px grey;
+    margin-bottom: 25px;
     }
 
-    .nav-link {
-        color: white!important;
-    }
-    
-    .nav-link:hover {
-        color: rgba(255, 255, 255, 0.582) !important;
-    }
-
-
-    .custom-sm {
-        flex: 0.5 0 0%;
-    }
-
-    .bv > span {
-        color: orange!important;
-    }
-
-    
-
-    .light-grey {
-        list-style-type: none;
-        color: black;
-        background-color: rgba(255, 255, 255, 0.472);
-        border-radius: 5px;
-    }
-    
-    #arrow {
-     width: 70px;
-     margin-top: 55px;
-    }
-
-    .col-sm-4 {
-       
-        margin-top: 25px;
-    } 
-    .col-sm-8 {
-       
-        margin-top: 5%;
-        font-size: 25px;
-    } 
-
-    h4 {
-        text-align: center;
-        font-size: 40px;
-    }
-    #Spoti {
-        color: green;
-        font-size: 50px;
-    }
-
-    .mt-60 {
-        margin-top: 60px;
-    }
-    
-    .mt-50 {
-        margin-top: 50px;
-    }
-
-    nav {
-        border-bottom: 5px solid rgb(28, 28, 29);
-       
-    }
+a {
+    text-decoration: none;
+}

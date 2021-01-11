@@ -8,7 +8,7 @@
     <link href="CSS/style.css" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGlmrguKs4mueGcNXsWxXSLzsB5EjmPGk&callback=initMap&libraries=&v=weekly" defer></script>
     <script src="JS/app.js"></script>
-    <title>Project X</title>
+    <title>SpotiMap</title>
 </head>
     
 <body>
@@ -16,15 +16,13 @@
     <nav class="navbar navbar-expand-lg navbar-light">
     
         <div class="container-fluid">
-            <a href="/grid.html"><img src="/img/spotimap.png" alt="" width="130" height="54" class="d-inline-block align-top"></a>
+            <a href="/grid.html">
+                <p id="SpotiNav">SpotiMap</p>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                <a class="nav-link" href="/aboutus.html">Om oss</a>
-                </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/doc.html">API-dokumentation</a>
                 </li>
@@ -37,33 +35,29 @@
         <div class="col-sm-8">
             <h4><p id="Spoti">SpotiMap</p>API Dokumentation</h4>
             <p>
-            Här återfinns all information som är av vikt för att kunna söka på ett specifikt lands topp 50 lista på spotify utifrån enbart namnet på det specifika landet. Med andra ord, se nedan för vidare beskrivning och dokumentation för att använda SpotiMaps API. 
+                Här återfinns all information som är av vikt för att kunna söka på ett specifikt lands topp 50 lista på spotify utifrån enbart namnet på det specifika landet. Dessutom erhålls vidare information om det specifika landet i brödtext från Wikipedia. Med andra ord, se nedan för vidare beskrivning och dokumentation för att använda SpotiMaps API. 
             </p>
         </div>
-            <br>
-            <br>
-            <br>        
     </div>
 
     <div class="row justify-content-md-center">    
         
         <div class="col-sm-8">
-                    <!-- TODO!!!!!!!! -->
             <h4>Kort API beskrivning</h4>
             <p>
                 Detta API gör det möjligt att få ut en spotify spellista genom dess unika ID, detta nås med hjälp av ett specifikt land skrivet på svenska.
                 Användaren byter ut {country} i GET funktionen till de land vars topp 50 lista på Spotify de eftersöker.
-                
+                Ytterligare information får man även om det eftersökta landet genom Wikipedias API.
+                <br>
                 Vårt API accepterar indata i form av JSON och returnerar JSON objekt tillbaka till användaren. 
             </p>
-            <br>
         </div>
         
-
     </div>
-    <div class="row justify-content-md-center">    
+
+    <div class="mt-60 row justify-content-md-center">    
         <div class="col-sm-4">
-            <h5>GET / {country}</h5>
+            <h5>GET /playlist/{country}</h5>
             <p>Returnerar ett ID för en specifik spellista från spotify, utifrån landet.</p>
             <p>Se exempel för returdata till höger</p>
         </div>
@@ -87,8 +81,8 @@
 
     <div class="row justify-content-md-center">    
         <div class="col-sm-4 mt-60">
-            <h5>GET / {artist}</h5>
-            <p>Returnerar information om en specifik artist</p>
+            <h5>GET /information/{country}</h5>
+            <p>Returnerar information om et specifikt land</p>
             <p>Se exempel för returdata till höger</p>
         </div>
 
@@ -102,32 +96,19 @@
                 <br>                
                 <li><strong>Returdata (exempel):</strong></li>
                 <li>{</li>
-                <li>"artistName":":Drake",</li>
-                <li>"artistInfo":"Aubrey Drake Graham[5] (born October 24, 1986) is a Canadian rapper, singer, songwriter, actor, and entrepreneur...."</li>
+                <li>"countryName":"Sweden",</li>
+                <li>"top50Playlist":"",</li>
+                <li>"wikiText":"Sweden (; Swedish: Sverige [ˈsvæ̌rjɛ] (listen)), officially the Kingdom of Sweden (Swedish: 
+                    Konungariket Sverige [ˈkôːnɵŋaˌriːkɛt ˈsvæ̌rjɛ] (listen)), is a Nordic country in Northern Europe.
+                    It borders Norway to the west and north, Finland to the east, and is connected to Denmark in the southwest by a bridge-tunnel across the Öresund Strait."</li>
                 <li>}</li>
             </ul>
         </div>
     </div>
-       
-          
-            
-        
-
         </div>
+
         <div class="col-sm-1"></div>
-    </div>
 
-
-    <!-- <div class="row">
-    <div class="col-sm">Här återfinns all information som är av vikt för att kunna söka på ett specifikt lands topp 50 lista på spotify utifrån enbart namnet på det specifika landet. Med andra ord, se nedan för vidare beskrivning och dokumentation för att använda SpotiMaps API. </div>
     </div>
-    <div class="row">
-    <div class="col-sm">Detta API gör det möjligt att få ut en spotify spellista genom dess unika ID, detta nås med hjälp av ett specifikt land skrivet på svenska.
-        Användaren byter ut {country} i GET funktionen till de land vars topp 50 lista på Spotify de eftersöker.
-        
-        Vårt API accepterar indata i form av JSON och returnerar JSON objekt tillbaka till användaren. 
-        </div>
-    <div class="col-sm">col-sm</div>
-    </div> -->
 </body>
 </html>
