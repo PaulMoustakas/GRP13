@@ -34,7 +34,7 @@ public class API_main {
         });
 
         before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
-
+        System.out.println("API IS RUNNING");
 
         get("playlist/:country", (req, res) -> {
             res.type("application/json");
