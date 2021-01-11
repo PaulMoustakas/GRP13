@@ -14,14 +14,14 @@ import static spark.Spark.*;
 public class API_main {
 
     private Gson gson;
-    private API_Caller caller;
+    private API_caller caller;
 
 
     public API_main() {
 
         port(3000);
         gson = new Gson();
-        caller = new API_Caller();
+        caller = new API_caller();
 
         options("/*", (request, response) -> {
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
