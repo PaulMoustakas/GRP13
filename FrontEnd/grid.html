@@ -8,41 +8,53 @@
     <link href="CSS/style.css" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGlmrguKs4mueGcNXsWxXSLzsB5EjmPGk&callback=initMap&libraries=&v=weekly&language=en&region=US" defer></script>
     <script src="JS/app.js"></script>
-    <title>Project X</title>
+    <title>SpotiMap</title>
 </head>
 
 <body>
-    <!-- Image and text -->
-    <nav class="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-        
-            <img src="/FrontEnd/img/spotimap.png" alt="" width="130" height="54" class="d-inline-block align-top">
-            
-        </a>
+            <a href="/grid.html">
+                <p id="SpotiNav">SpotiMap</p>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/doc.html">API-dokumentation</a>
+              </li>
+            </ul>
+          </div>
         </div>
     </nav>
 
     <div id="map"></div>
 
-<div id="infographic" class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-sm-auto">
-            <iframe id="iframe"></iframe>
-        </div>
-        <div class="col-sm-auto">
-            <div id="weather">    
-                <div>
-                    <h3 id="temp"></h3>
-                </div>
-                <p id=weatherInfo></p>
+    <div id="infographic" class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-auto">
+                <h4>Het musik just nu</h4>
+                <iframe id="iframe"></iframe>
             </div>
-        </div>
-        <div id="wikiInfo" class="col-sm">
-            hej
-        </div>
+            <div class="custom-sm">
+                <div id="weather">    
+                    <div>
+                        <h3 id="temp"></h3>
+                    </div>
+                    <p id=weatherInfo></p>
+                </div>
+            </div>
+            <div class="wikiCard col-sm">
+                <h4>Information om landet</h4>
+                <div id="wikiInfo">
+                </div>
+            </div>
 
+        </div>
     </div>
-</div>
 </body>
 
 </html>
