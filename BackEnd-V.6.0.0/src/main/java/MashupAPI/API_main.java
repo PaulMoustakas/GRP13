@@ -1,17 +1,6 @@
 package MashupAPI;
 import Entities.Country;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
-import kong.unirest.json.JSONObject;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.Stack;
 import static spark.Spark.*;
 
 /**
@@ -43,17 +32,15 @@ public class API_main {
 
         options("/*", (request, response) -> {
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
-
             if (accessControlRequestHeaders != null) {
-                response.header("Access-Control-Allow-Headers",
-                        accessControlRequestHeaders);
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
             }
 
             String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
-
             if (accessControlRequestMethod != null) {
                 response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
             }
+
             return "OK";
         });
 

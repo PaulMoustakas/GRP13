@@ -1,5 +1,10 @@
 package Entities;
 
+/**
+ * Class represents a JSON-object
+ * containing Top 50 song and information
+ * relating to a requested country
+ */
 public class Country {
 
     private String countryName = "";

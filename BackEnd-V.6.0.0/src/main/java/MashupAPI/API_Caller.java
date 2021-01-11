@@ -5,12 +5,23 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
-
 import java.util.Scanner;
 import java.util.Stack;
 
+
+/**
+ * Class hold the possible API connections
+ * @author GRP 13, Malmö Universitet - Webtjänster
+ * @version 1.0.0
+ */
 public class API_Caller {
 
+
+    /**
+     * Method collects information from Wikipedia based on country input.
+     * @param queryCountry Country Object
+     * @return JSON Object representing the country with Wikipedia information
+     */
     public Country wikipediaConnection (Country queryCountry) {
 
         System.out.println("Country to use in Wikipedia API query: " + queryCountry.getCountryName());
@@ -43,10 +54,16 @@ public class API_Caller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return queryCountry;
     }
 
+
+
+    /**
+     * Method retrieves a playlist from Spotify based on country input.
+     * @param queryCountry Country Object
+     * @return JSON Object representing the country object with a Spotify top 50 Playlist
+     */
     public Country spotifyConnection(Country queryCountry) {
 
         System.out.println("Country to use in Spotify API query: " + queryCountry.getCountryName());
@@ -93,6 +110,5 @@ public class API_Caller {
             }
         }
         return queryCountry;
-
     }
 }
