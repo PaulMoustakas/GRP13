@@ -46,6 +46,10 @@ function geocodeLatLng(geocoder, map, cordi) {
             function sendPlaylist(id) {
                   iframe.src = "https://open.spotify.com/embed/playlist/" + id
                   iframe.allow = "encrypted-media"
+                  // Test till att ändra namn i iframe
+                  // let bv = document.getElementsByClassName("ai")[0]
+                  // console.log(bv)
+                  // bv.innerText="Top 50 i" + data.countryName
                 }
 
                 $.ajax({
@@ -115,7 +119,7 @@ function getWeather(lat,lon, country) {
 
   weatherFrame = document.getElementById("weatherFrame")
   weatherFrame.src="http://openweathermap.org/img/w/" + iconcode + ".png";
-  document.getElementById("weatherInfo").innerHTML = temp + "\n" + region + "," + country;
+  document.getElementById("weatherInfo").innerHTML = region + "," + country;
   document.getElementById("temp").innerHTML += temp + "°C";
   });
 }
