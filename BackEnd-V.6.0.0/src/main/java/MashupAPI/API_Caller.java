@@ -9,7 +9,7 @@ import kong.unirest.json.JSONObject;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class API_Caller {
+public class API_caller {
 
     public Country wikipediaConnection (Country queryCountry) {
 
