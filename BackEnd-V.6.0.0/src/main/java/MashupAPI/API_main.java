@@ -10,7 +10,7 @@ import static spark.Spark.*;
  * @version 6.0.0
  */
 
-public class API_main {
+ class API_main {
 
     private Gson gson;
     private API_Caller caller;
